@@ -14,9 +14,9 @@ data "aws_ami" "ami" {
   }
 }
 
-data "aws_key_pair" "mykey" {
-  key_name = "Key"
-}
+# data "aws_key_pair" "mykey" {
+#   key_name = "Key"
+# }
 
 
 data "aws_vpc" "vpc" {
@@ -66,4 +66,9 @@ data "aws_subnet" "public_subnet" {
 data "aws_subnet" "database_subnet" {
   for_each = data.aws_subnet_ids.database_subnet.ids
   id       = each.value
+}
+
+data "aws_route53_zone" "domain" {
+  name = lookup(var.domain_name, terraform.workspace)
+
 }

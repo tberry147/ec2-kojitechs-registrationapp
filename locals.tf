@@ -15,8 +15,12 @@ locals {
     component_name          = "kojitechs"
 
   }
-  vpc_id = data.aws_vpc.vpc.id
-  public_subnet = [for i in data.aws_subnet.public_subnet: i.id]
-   private_subnet = [for i in data.aws_subnet.private_subnet: i.id]
-   database_subnet = [for i in data.aws_subnet.database_subnet: i.id]
+  vpc_id          = data.aws_vpc.vpc.id
+  public_subnet   = [for i in data.aws_subnet.public_subnet : i.id]
+  private_subnet  = [for i in data.aws_subnet.private_subnet : i.id]
+  database_subnet = [for i in data.aws_subnet.database_subnet : i.id]
+
+  instance_profile = aws_iam_instance_profile.instance_profile.name
+
+  name = "kojitechs-${replace(basename(var.component_name), "-", "-")}"
 }
