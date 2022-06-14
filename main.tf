@@ -5,11 +5,11 @@ resource "aws_instance" "frontend_app1" {
   instance_type          = var.instance_type
   subnet_id              = local.private_subnet[0]
   iam_instance_profile   = local.instance_profile
-  vpc_security_group_ids = [aws_security_group.loadbalancer_sg.id]
+  vpc_security_group_ids = [aws_security_group.frontend_app_sg.id]
   user_data              = file("${path.module}/template/frontend_app1.sh")
 
   tags = {
-    Name = "frontend_app2"
+    Name = "frontend_app1"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_instance" "registration_app" {
   count      = length(var.name)
 
   ami                    = data.aws_ami.ami.id
-  instance_type          = var.instance_type
+  instance_type          = "t2.xlarge"
   subnet_id              = element(local.private_subnet, count.index)
   iam_instance_profile   = local.instance_profile
   vpc_security_group_ids = [aws_security_group.registration_app.id]

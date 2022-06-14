@@ -27,30 +27,33 @@ data "aws_vpc" "vpc" {
 }
 
 data "aws_subnet_ids" "private_subnet" {
+  vpc_id = local.vpc_id
   filter {
 
     name   = "tag:Name"
     values = ["private_subnet_*"]
   }
-  vpc_id = local.vpc_id
+  
 }
 
 data "aws_subnet_ids" "public_subnet" {
+  vpc_id = local.vpc_id
   filter {
 
     name   = "tag:Name"
     values = ["public_subnet_*"]
   }
-  vpc_id = local.vpc_id
+  
 }
 
 data "aws_subnet_ids" "database_subnet" {
+  vpc_id = local.vpc_id
   filter {
 
     name   = "tag:Name"
     values = ["database_subnet_*"]
   }
-  vpc_id = local.vpc_id
+  
 }
 
 data "aws_subnet" "private_subnet" {
@@ -71,4 +74,10 @@ data "aws_subnet" "database_subnet" {
 data "aws_route53_zone" "domain" {
   name = lookup(var.domain_name, terraform.workspace)
 
+}
+
+data "aws_secretsmanager_secret_version" "rds_secret_target" {
+
+  depends_on = [module.aurora]
+  secret_id  = module.aurora.secrets_version
 }

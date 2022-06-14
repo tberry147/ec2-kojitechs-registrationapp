@@ -22,6 +22,7 @@ resource "aws_iam_role" "ssm_fleet_ec2" {
   }
 }
 
+# To reference this to ec2 we have to pass ===> aws_iam_instance_profile.instance_profile.name
 #Instance Profile
 resource "aws_iam_instance_profile" "instance_profile" {
   name = "instance_profile"
@@ -76,7 +77,7 @@ resource "aws_iam_policy" "policy" {
 EOF
 }
 
-#Roly and Policy attachment
+#Role and Policy attachment
 resource "aws_iam_role_policy_attachment" "role_policy_attach" {
   role       = aws_iam_role.ssm_fleet_ec2.name
   policy_arn = aws_iam_policy.policy.arn

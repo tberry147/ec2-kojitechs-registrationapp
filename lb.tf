@@ -53,7 +53,7 @@ module "alb" {
           port      = 80
         },
         my_app1_vm2 = {
-          target_id = aws_instance.frontend_app2.id
+          target_id = aws_instance.frontend_app1.id
           port      = 80
         }
       }
@@ -206,6 +206,6 @@ module "acm" {
 
   domain_name               = trimsuffix(data.aws_route53_zone.domain.name, ".")
   zone_id                   = data.aws_route53_zone.domain.zone_id
-  subject_alternative_names = var.subject_alternative_names
+  subject_alternative_names = var.subject_alternative_domain_name
 }
 

@@ -10,14 +10,13 @@ resource "aws_security_group" "mysql_sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"]
     security_groups = [aws_security_group.registration_app.id]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "tcp"
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
 
   }
@@ -38,9 +37,9 @@ module "aurora" {
       instance_class      = "db.r5.large"
       publicly_accessible = false
     }
-    1 = {
+    2 = {
       identifier     = format("%s-%s", "kojitechs-${var.component_name}", "reader-instance")
-      instance_class = "db.r5.xlarge"
+      instance_class = "db.r5.2xlarge"
       promotion_tier = 15
     }
   }
@@ -60,10 +59,7 @@ module "aurora" {
   db_parameter_group_name         = aws_db_parameter_group.example.id
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.example.id
   enabled_cloudwatch_logs_exports = ["audit", "error", "general", "slowquery"]
-  # database_name                   = var.db_name
-  # master_username                 = var.master_username
 }
-
 
 resource "aws_db_parameter_group" "example" {
   name        = "${local.name}-aurora-db-57-parameter-group"

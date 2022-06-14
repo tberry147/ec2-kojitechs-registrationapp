@@ -20,24 +20,13 @@ variable "name" {
 
 }
 
-# variable "db_name" {
-#   default = "webappdb"
-# }
-
-# variable "master_username" {
-#   default = "dbadmin"
-# }
-
 
 variable "domain_name" {
-  default = {
-    default = "iandi.click"
-    # sandbox = 
-    # staging =
+  type = map (any)
   }
-}
 
-variable "subject_alternative_names" {
-  type    = list(any)
-  default = ["*.iandi.click"]
+
+variable "subject_alternative_domain_name" {
+  type    = list
+    
 }
