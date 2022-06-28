@@ -1,4 +1,17 @@
 
+
+
+data "terraform_remote_state" "operational_environment_networking" {
+  backend = "s3"
+
+  config = {
+    region = "us-east-1"
+    bucket = "ops-kojitechs-deploy-vpc"
+    key = format("env:/%s/path/env", terraform.workspace)
+    # key = "env:/prod/path/env"
+   }
+}
+
 # Create Instance
 resource "aws_instance" "frontend_app1" {
   ami                    = data.aws_ami.ami.id
@@ -34,7 +47,7 @@ resource "aws_instance" "registration_app" {
   count      = length(var.name)
 
   ami                    = data.aws_ami.ami.id
-  instance_type          = "t2.xlarge"
+  instance_type          = terraform.workspace == "prod" ? "t2.xlarge" : "t2.large" 
   subnet_id              = element(local.private_subnet, count.index)
   iam_instance_profile   = local.instance_profile
   vpc_security_group_ids = [aws_security_group.registration_app.id]

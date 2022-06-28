@@ -30,3 +30,8 @@ variable "subject_alternative_domain_name" {
   type    = list
     
 }
+
+variable "env" {
+  type =  map(any)
+  
+}

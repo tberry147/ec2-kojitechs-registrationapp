@@ -31,7 +31,8 @@ module "aurora" {
 
   name           = local.name
   engine         = "aurora-mysql"
-  engine_version = "5.7.12"
+  engine_version = "5.7.mysql_aurora.2.10.1"
+
   instances = {
     1 = {
       instance_class      = "db.r5.large"
